@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -5,6 +6,9 @@ import NextUILayout from "./NextUIProvider";
 import NavbarComponent from "@/components/layouts/NavbarComponent";
 import { Suspense } from "react";
 import LoadingComponent from "./loading";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "./error";
+// import errorComponent from "./error/errorMethod";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +30,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextUILayout>
           <NavbarComponent />
-         {children}
+          <Suspense fallback={<LoadingComponent />}>
+           <ErrorBoundary errorComponent={Error}>
+              {children}
+            </ErrorBoundary>
+         </Suspense>
+
         </NextUILayout>
       </body>
     </html>
